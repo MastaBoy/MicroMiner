@@ -16,12 +16,17 @@ input.onButtonPressed(Button.A, function () {
                 `)
         }
         for (let index = 0; index < 30; index++) {
-            music.playMelody("F B A F C5 A G B ", 120)
+            if (VICTORY == 0) {
+                music.playMelody("F B A F C5 A G B ", 120)
+            }
         }
     }
 })
 input.onPinPressed(TouchPin.P2, function () {
     if (Playable == 2) {
+        music.stopAllSounds()
+        music.playMelody("F G A B C5 C5 B C5 ", 120)
+        VICTORY = 3
         basic.showString("YOU WIN")
         basic.showString("SCORE")
         basic.showNumber(TIMER)
@@ -33,6 +38,7 @@ input.onPinPressed(TouchPin.P2, function () {
                 . # . # .
                 # . . . #
                 `)
+            basic.pause(1000)
             control.reset()
         }
         control.reset()
@@ -85,6 +91,7 @@ input.onPinReleased(TouchPin.P1, function () {
 let TIMER = 0
 let HEALTH = 0
 let Playable = 0
+let VICTORY = 0
 basic.showLeds(`
     # . . . #
     . . . . .
@@ -92,10 +99,12 @@ basic.showLeds(`
     # . . . #
     . # # # .
     `)
+VICTORY = 0
 Playable = 0
 HEALTH = 500
 basic.forever(function () {
     if (HEALTH == 0) {
+        music.stopAllSounds()
         music.playMelody("G F E D E D D - ", 120)
         basic.showLeds(`
             # . . . #
@@ -122,13 +131,6 @@ basic.forever(function () {
             `)
         basic.pause(1000)
         control.reset()
-    }
-})
-basic.forever(function () {
-    if (Playable == 2) {
-        if (HEALTH == 0) {
-            music.stopAllSounds()
-        }
     }
 })
 basic.forever(function () {
